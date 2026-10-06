@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - Smart Campus</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7ff;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #312e81, #7c3aed);
+            color: white;
+            padding: 35px 7%;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 35px auto;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .application-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.14);
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .application-card h2 {
+            color: #312e81;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 11px 18px;
+            background: white;
+            color: #4338ca;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.07);
+            font-weight: 600;
+        }
+
+        @media (max-width: 700px) {
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>📝 My Applications</h1>
+        <p>Track your submitted job applications in one place.</p>
+    </header>
+
+    <main class="container">
+
+        <div class="applications-grid">
+
+            <div class="application-card">
+                <div class="icon">🐍</div>
+
+                <h2>Python Developer</h2>
+
+                <div class="status">
+                    Applied
+                </div>
+
+                <br>
+
+                <button
+                    class="view-btn"
+                    onclick="viewApplication('Python Developer')">
+                    View Application
+                </button>
+            </div>
+
+
+            <div class="application-card">
+                <div class="icon">⚡</div>
+
+                <h2>Backend Developer</h2>
+
+                <div class="status">
+                    Applied
+                </div>
+
+                <br>
+
+                <button
+                    class="view-btn"
+                    onclick="viewApplication('Backend Developer')">
+                    View Application
+                </button>
+            </div>
+
+
+            <div class="application-card">
+                <div class="icon">💻</div>
+
+                <h2>Python Full Stack Developer</h2>
+
+                <div class="status">
+                    Applied
+                </div>
+
+                <br>
+
+                <button
+                    class="view-btn"
+                    onclick="viewApplication('Python Full Stack Developer')">
+                    View Application
+                </button>
+            </div>
+
+        </div>
+
+
+        <a
+            href="studentdashboard.html"
+            class="back-btn">
+            ⬅️ Back to Dashboard
+        </a>
+
+    </main>
+
+
+    <script>
+
+        function viewApplication(job) {
+
+            alert(
+                "📄 Application Details\n\n" +
+                "Position: " + job + "\n" +
+                "Status: Applied\n\n" +
+                "✅ Your application has been submitted."
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>

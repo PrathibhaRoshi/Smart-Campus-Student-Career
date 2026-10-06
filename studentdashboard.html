@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus - Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7ff;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #312e81, #4f46e5);
+            color: white;
+            padding: 28px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .brand {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin: 15px 12px 10px;
+        }
+
+        .sidebar a,
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 13px 15px;
+            margin: 7px 0;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover,
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        /* Main */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 30px;
+            color: #1e1b4b;
+        }
+
+        .topbar p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        .profile-mini {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 30px;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+            font-weight: 600;
+        }
+
+        /* Welcome */
+
+        .welcome {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 24px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.20);
+            margin-bottom: 28px;
+        }
+
+        .welcome h2 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            opacity: 0.9;
+        }
+
+        /* Statistics */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #312e81;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Cards */
+
+        .section-title {
+            margin-bottom: 18px;
+            color: #1e1b4b;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.12);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #eef2ff;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #312e81;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 18px;
+        }
+
+        .card a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background: #4f46e5;
+            padding: 10px 17px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .card a:hover {
+            background: #3730a3;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .topbar {
+                display: block;
+            }
+
+            .profile-mini {
+                display: inline-block;
+                margin-top: 12px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                🎓 Smart Campus
+            </div>
+
+            <div class="menu-title">
+                Main Menu
+            </div>
+
+            <a href="studentdashboard.html">🏠 Dashboard</a>
+
+            <a href="profile.html">👤 My Profile</a>
+
+            <a href="courses.html">📚 Courses</a>
+
+            <a href="career.html">💼 Career Opportunities</a>
+
+            <a href="applications.html">📝 My Applications</a>
+
+            <div class="menu-title">
+                Account
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- Main Content -->
+
+        <main class="main">
+
+            <div class="topbar">
+
+                <div>
+                    <h1>Student Dashboard</h1>
+                    <p>Your academic and career journey in one place.</p>
+                </div>
+
+                <div class="profile-mini">
+                    👋 <span id="studentName">Student</span>
+                </div>
+
+            </div>
+
+
+            <!-- Welcome -->
+
+            <section class="welcome">
+
+                <h2>Welcome back, <span id="welcomeName">Student</span>! 🎉</h2>
+
+                <p>
+                    Keep learning, build your skills and explore new career opportunities.
+                </p>
+
+            </section>
+
+
+            <!-- Statistics -->
+
+            <h2 class="section-title">
+                Your Overview
+            </h2>
+
+            <section class="stats">
+
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Available Courses</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💼</div>
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Career Opportunities</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number">70%</div>
+                    <div class="stat-label">Learning Progress</div>
+                </div>
+
+            </section>
+
+
+            <!-- Quick Actions -->
+
+            <h2 class="section-title">
+                Quick Access
+            </h2>
+
+            <section class="cards">
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        My Profile
+                    </h3>
+
+                    <p>
+                        View your education, skills and career goals.
+                    </p>
+
+                    <a href="profile.html">
+                        Open Profile →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h3>
+                        Courses
+                    </h3>
+
+                    <p>
+                        Improve your technical skills through available courses.
+                    </p>
+
+                    <a href="courses.html">
+                        Explore Courses →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        💼
+                    </div>
+
+                    <h3>
+                        Career Opportunities
+                    </h3>
+
+                    <p>
+                        Explore jobs and internships suitable for students.
+                    </p>
+
+                    <a href="career.html">
+                        View Opportunities →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        My Applications
+                    </h3>
+
+                    <p>
+                        Track your submitted applications and their status.
+                    </p>
+
+                    <a href="applications.html">
+                        View Applications →
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        const name =
+            localStorage.getItem("student_name");
+
+        if (name) {
+
+            document.getElementById(
+                "studentName"
+            ).textContent = name;
+
+            document.getElementById(
+                "welcomeName"
+            ).textContent = name;
+        }
+
+
+        function logout() {
+
+            localStorage.removeItem("student_email");
+            localStorage.removeItem("student_name");
+
+            alert("✅ Logged out successfully!");
+
+            window.location.href = "Login.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

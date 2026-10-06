@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Campus - Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            width: 90%;
+            max-width: 420px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            text-align: center;
+            color: #4338ca;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3730a3;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        .register a {
+            color: #4f46e5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <div class="logo">🎓 Smart Campus</div>
+
+        <p class="subtitle">
+            Student Career Management System
+        </p>
+
+        <h2>Student Login</h2>
+
+        <form onsubmit="loginStudent(event)">
+
+            <label for="email">Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="password">Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <p class="register">
+            New student?
+            <a href="register.html">Register here</a>
+        </p>
+
+    </div>
+
+    <script>
+
+        async function loginStudent(event) {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const message =
+                document.getElementById("message");
+
+            try {
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/login",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const result = await response.json();
+
+                if (result.success) {
+
+                    localStorage.setItem(
+                        "student_email",
+                        result.email
+                    );
+
+                    localStorage.setItem(
+                        "student_name",
+                        result.name
+                    );
+
+                    alert("✅ Login successful!");
+
+                    window.location.href =
+                        "studentdashboard.html";
+
+                } else {
+
+                    message.textContent =
+                        "❌ " + result.message;
+
+                    message.style.color = "red";
+
+                }
+
+            } catch (error) {
+
+                message.textContent =
+                    "❌ Unable to connect to backend.";
+
+                message.style.color = "red";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

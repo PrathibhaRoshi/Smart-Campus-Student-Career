@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications - Smart Campus</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7ff;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #312e81, #7c3aed);
+            color: white;
+            padding: 35px 7%;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 35px auto;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .application-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.12);
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .application-card h3 {
+            color: #312e81;
+            margin-bottom: 12px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 8px 0 18px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 10px 17px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .view-btn:hover {
+            background: #3730a3;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 11px 18px;
+            background: white;
+            color: #4338ca;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.07);
+            font-weight: 600;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 28px 5%;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>📝 My Applications</h1>
+        <p>Track your submitted job applications in one place.</p>
+    </header>
+
+    <main class="container">
+
+        <div id="applications" class="applications-grid">
+            Loading applications...
+        </div>
+
+        <a href="studentdashboard.html" class="back-btn">
+            ⬅️ Back to Dashboard
+        </a>
+
+    </main>
+
+    <script>
+
+        async function loadApplications() {
+
+            const email = localStorage.getItem("student_email");
+
+            if (!email) {
+                document.getElementById("applications").innerHTML =
+                    `
+                    <div class="empty">
+                        <p>❌ Please login first.</p>
+                    </div>
+                    `;
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/applications?email="
+                    + encodeURIComponent(email)
+                );
+
+                const result = await response.json();
+
+                const container =
+                    document.getElementById("applications");
+
+                if (
+                    !result.applications ||
+                    result.applications.length === 0
+                ) {
+                    container.innerHTML =
+                        `
+                        <div class="empty">
+                            <h3>No Applications Yet</h3>
+                            <p>Apply for an opportunity to see it here.</p>
+                        </div>
+                        `;
+                    return;
+                }
+
+                container.innerHTML = "";
+
+                result.applications.forEach(function (application) {
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "application-card";
+
+                    card.innerHTML = `
+                        <div class="icon">💼</div>
+
+                        <h3>${application.job}</h3>
+
+                        <span class="status">
+                            ${application.status}
+                        </span>
+
+                        <br>
+
+                        <button
+                            class="view-btn"
+                            onclick="viewApplication('${application.job}')">
+                            View Application
+                        </button>
+                    `;
+
+                    container.appendChild(card);
+
+                });
+
+            } catch (error) {
+
+                document.getElementById("applications").innerHTML =
+                    `
+                    <div class="empty">
+                        <p>❌ Unable to connect to backend.</p>
+                    </div>
+                    `;
+
+            }
+        }
+
+
+        function viewApplication(job) {
+
+            alert(
+                "📄 Application Details\n\n" +
+                "Position: " + job + "\n" +
+                "Status: Applied\n\n" +
+                "✅ Your application has been submitted."
+            );
+
+        }
+
+        loadApplications();
+
+    </script>
+
+</body>
+
+</html>
